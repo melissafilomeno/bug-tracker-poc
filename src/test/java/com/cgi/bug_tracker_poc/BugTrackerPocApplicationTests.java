@@ -8,9 +8,11 @@ import org.testcontainers.utility.DockerImageName;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.context.ActiveProfiles;
 
 @Testcontainers
 @SpringBootTest
+@ActiveProfiles(value = "test")
 class BugTrackerPocApplicationTest {
 
 	@Container

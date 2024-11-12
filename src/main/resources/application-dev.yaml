@@ -3,3 +3,17 @@ spring:
     compose:
       enabled: true
       file: docker-compose.yml
+  jpa:
+    hibernate.ddl-auto:
+      none
+    show-sql:
+      true
+  datasource:
+    url:
+      jdbc:mysql://localhost:3307/mydb
+    username:
+      bug_user
+    password:
+      ${MYSQL_PASSWORD}
+    driver-class-name:
+      com.mysql.cj.jdbc.Driver
