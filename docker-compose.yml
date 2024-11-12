@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=bug_user
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - '3307:3306'
+    volumes: 
+      - ./db/db_schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./db/db_data.sql:/docker-entrypoint-initdb.d/2-data.sql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 8080:80
+    depends_on:
+      - db
