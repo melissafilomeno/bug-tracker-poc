@@ -1,4 +1,4 @@
-package com.cgi.bug_tracker_poc;
+package com.myorg.bugTrackerPoc;
 
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.MySQLContainer;

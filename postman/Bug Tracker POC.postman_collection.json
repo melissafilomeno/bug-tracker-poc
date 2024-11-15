@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "5f4a0d5c-8ded-4dc8-a562-192b5363da3b",
+		"name": "Bug Tracker POC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37829510"
+	},
+	"item": [
+		{
+			"name": "Create a new Bug - Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"description\", \"This is my first bug\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Contains a new UUID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.not.eql(null);\r",
+							"});\r",
+							"pm.test(\"Contains same description as input\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.description).to.eql(pm.collectionVariables.get(\"description\"));\r",
+							"});\r",
+							"pm.collectionVariables.set(\"new_bug\", pm.response.json());\r",
+							"pm.collectionVariables.set(\"new_bug_id\", pm.response.json().id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"{{description}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bugs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bugs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve all Bugs - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response contains newly created bug\", function () {\r",
+							"    pm.response.to.have.body();\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/bugs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bugs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve new bug - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response contains newly created bug\", function () {\r",
+							"    pm.response.to.have.body();\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/bugs/{{new_bug_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bugs",
+						"{{new_bug_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "description",
+			"value": ""
+		},
+		{
+			"key": "new_bug",
+			"value": ""
+		},
+		{
+			"key": "new_bug_id",
+			"value": ""
+		}
+	]
+}

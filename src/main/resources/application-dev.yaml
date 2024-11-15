@@ -4,8 +4,9 @@ spring:
       enabled: true
       file: docker-compose.yml
   jpa:
-    hibernate.ddl-auto:
-      none
+    hibernate:
+      ddl-auto:
+        none
     show-sql:
       true
   datasource:
