@@ -6,11 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.myorg.bugTrackerPoc.entity.Bug;
 import com.myorg.bugTrackerPoc.service.BugService;
@@ -22,6 +18,7 @@ import com.myorg.bugTrackerPoc.service.BugService;
  *  - Find a bug by id
  */
 @RestController
+@RequestMapping("/bugs")
 public class BugController {
 
     private static final Logger LOGGER = Logger.getLogger(BugController.class.getName());
@@ -29,7 +26,7 @@ public class BugController {
     @Autowired
     private BugService bugService;
     
-    @PostMapping("/bugs")
+    @PostMapping
     public ResponseEntity<Bug> addBug(@RequestBody Bug bug){
         Bug newBug = bugService.addBug(bug);
         if(newBug != null){
@@ -38,12 +35,12 @@ public class BugController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping("/bugs")
+    @GetMapping
     public ResponseEntity<Iterable<Bug>> getAllBugs(){
         return new ResponseEntity<>(bugService.getAllBugs(), HttpStatus.OK);
     }
 
-    @GetMapping("/bugs/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Bug> findBugById(@PathVariable String id){
         LOGGER.info("Searching for id : " + id);
         Optional<Bug> bug = bugService.findBugById(id);
