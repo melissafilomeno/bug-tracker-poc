@@ -8,7 +8,7 @@
 		<version>3.3.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cgi</groupId>
+	<groupId>com.myorg</groupId>
 	<artifactId>bug-tracker-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bug-tracker-poc</name>
