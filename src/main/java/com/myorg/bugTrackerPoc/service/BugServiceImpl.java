@@ -1,13 +1,12 @@
 package com.myorg.bugTrackerPoc.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myorg.bugTrackerPoc.entity.Bug;
-import com.myorg.bugTrackerPoc.jpa.BugRepository;
+import com.myorg.bugTrackerPoc.repository.BugRepository;
 
 @Service
 public class BugServiceImpl implements BugService {

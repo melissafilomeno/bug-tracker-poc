@@ -5,3 +5,9 @@ spring:
     name: bug-tracker-poc
 server:
   port: 9090
+logging:
+  config: src/main/resources/logback-spring.xml
+  file:
+    name: bug-tracker-poc
+    # Note: logging.file.path is used via springProperty in logback-spring.xml
+    path: C://Users/melis/logs
