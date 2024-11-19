@@ -17,12 +17,13 @@ Configuration Setup :
 * Create a .env file and define the following fields :
     * MYSQL_PASSWORD
     * MYSQL_ROOT_PASSWORD
-
+* Open src/main/resources/application.yaml and update the field below with your log directory :
+   * logging.file.path
 
 Run :
 * Start Docker Desktop
 * Run `mvn clean install`
-* Run `mvn spring-boot:run -Dspring-boot.run.arguments="--logging.file.path=<your log folder>"`
+* Run `mvn spring-boot:run`
 
 
 Verification :
