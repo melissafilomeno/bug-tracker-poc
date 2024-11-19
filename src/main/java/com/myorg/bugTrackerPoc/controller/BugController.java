@@ -1,15 +1,17 @@
 package com.myorg.bugTrackerPoc.controller;
 
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.myorg.bugTrackerPoc.entity.Bug;
 import com.myorg.bugTrackerPoc.service.BugService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * Handles CRUD operations for Bug object :
@@ -18,21 +20,25 @@ import com.myorg.bugTrackerPoc.service.BugService;
  *  - Find a bug by id
  */
 @RestController
-@RequestMapping("/bugs")
+@RequestMapping(value = "/bugs")
 public class BugController {
 
     private static final Logger LOGGER = Logger.getLogger(BugController.class.getName());
 
     @Autowired
     private BugService bugService;
+
+    @Autowired
+    private MessageSource messageSource;
     
-    @PostMapping
-    public ResponseEntity<Bug> addBug(@RequestBody Bug bug){
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Bug addBug(@RequestBody Bug bug){
         Bug newBug = bugService.addBug(bug);
         if(newBug != null){
-            return new ResponseEntity<Bug>(newBug, HttpStatus.CREATED);
+            return newBug;
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new ResponseStatusException(HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
     @GetMapping
