@@ -7,8 +7,6 @@ spring:
     hibernate:
       ddl-auto:
         none
-    show-sql:
-      true
   datasource:
     url:
       jdbc:mysql://localhost:3307/mydb
