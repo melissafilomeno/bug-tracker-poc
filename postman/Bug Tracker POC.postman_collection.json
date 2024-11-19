@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5f4a0d5c-8ded-4dc8-a562-192b5363da3b",
+		"_postman_id": "5ad25d73-e93f-4569-a2e3-2541122c7a16",
 		"name": "Bug Tracker POC",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37829510"
+		"_exporter_id": "39820280"
 	},
 	"item": [
 		{
@@ -137,6 +137,64 @@
 					"path": [
 						"bugs",
 						"{{new_bug_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new Bug - xml body - Fail with 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Contains code\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.code).to.eql(400);\r",
+							"});\r",
+							"pm.test(\"Contains message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql('Bad Request');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<html>\r\n</html>",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bugs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bugs"
 					]
 				}
 			},
