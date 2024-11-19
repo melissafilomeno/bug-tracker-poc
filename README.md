@@ -22,7 +22,7 @@ Configuration Setup :
 Run :
 * Start Docker Desktop
 * Run `mvn clean install`
-* Run `mvn spring-boot:run`
+* Run `mvn spring-boot:run -Dspring-boot.run.arguments="--logging.file.path=<your log folder>`
 
 
 Verification :
