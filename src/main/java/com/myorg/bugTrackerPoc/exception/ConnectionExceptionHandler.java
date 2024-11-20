@@ -1,5 +1,6 @@
 package com.myorg.bugTrackerPoc.exception;
 
+import org.openapitools.client.model.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,10 @@ public class ConnectionExceptionHandler {
 
     @ExceptionHandler(value = {org.springframework.transaction.TransactionException.class})
     public ResponseEntity<Object> handleConnectionError(Exception exception, WebRequest webRequest){
-        RestErrorBody restErrorBody = new RestErrorBody(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                messageSource.getMessage(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), null, webRequest.getLocale()));
-        return new ResponseEntity<>(restErrorBody, HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        Error error = new Error();
+        error.setCode(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        error.setMessage(messageSource.getMessage(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), null, webRequest.getLocale()));
+        return new ResponseEntity<>(error, HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
 }

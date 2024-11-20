@@ -1,0 +1,84 @@
+openapi: "3.0.0"
+info:
+  title: Bugs API
+  description: API for managing Bugs
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:9090/bugs
+    description: local server description
+
+paths:
+  /bugs:
+    get:
+      summary: Return the list of all bugs
+      description: Retrieves the list of all bugs
+      operationId: findAllBugs
+      responses:
+        "200": 
+          description: Returns a JSON array of bugs
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Bug"
+    post:
+      tags: 
+        - Bugs
+      summary: Create a new Bug
+      requestBody:
+        description: Creates a new Bug
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bug"
+      responses:
+        "201":
+          description: Created
+  /bugs/{bugId}:
+    get:
+      tags:
+        - Bugs
+      summary: Return the bug details
+      description: Retrieve the bug details
+      operationId: findBugById
+      parameters:
+        - name: bugId
+          in: path
+          description: Bug ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns the details of the bug
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Bug"
+        "404":
+          description: Bug was not found
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Bug:
+      type: object
+      properties:
+        id: 
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
