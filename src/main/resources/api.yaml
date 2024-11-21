@@ -4,10 +4,6 @@ info:
   description: API for managing Bugs
   version: 1.0.0
 
-servers:
-  - url: http://localhost:9090/bugs
-    description: local server description
-
 paths:
   /bugs:
     get:
@@ -37,6 +33,10 @@ paths:
       responses:
         "201":
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bug"
   /bugs/{bugId}:
     get:
       tags:

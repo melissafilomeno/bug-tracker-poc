@@ -1,6 +1,6 @@
 package com.myorg.bugTrackerPoc.exception;
 
-import org.openapitools.client.model.Error;
+import com.myorg.bugTrackerPoc.openapi.server.model.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;

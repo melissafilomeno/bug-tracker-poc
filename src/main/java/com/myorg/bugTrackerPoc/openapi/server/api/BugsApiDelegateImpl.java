@@ -1,11 +1,13 @@
-package com.myorg.bugTrackerPoc.controller;
+package com.myorg.bugTrackerPoc.openapi.server.api;
 
+import com.myorg.bugTrackerPoc.openapi.server.api.BugsApiDelegate;
+import com.myorg.bugTrackerPoc.openapi.server.model.Bug;
 import com.myorg.bugTrackerPoc.service.BugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -13,42 +15,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import org.openapitools.client.model.Bug;
+@Service
+public class BugsApiDelegateImpl implements BugsApiDelegate {
 
-/**
- * Handles CRUD operations for Bug object :
- *  - Create a new bug
- *  - List all bugs
- *  - Find a bug by id
- */
-@RestController
-@RequestMapping(value = "/bugs")
-public class BugController {
-
-    private static final Logger LOGGER = Logger.getLogger(BugController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BugsApiDelegateImpl.class.getName());
 
     @Autowired
     private BugService bugService;
-    
-    @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Bug addBug(@RequestBody Bug bugRequest){
+
+    public ResponseEntity<Bug> bugsPost(Bug bug) {
         com.myorg.bugTrackerPoc.entity.Bug bugEntity = new com.myorg.bugTrackerPoc.entity.Bug();
-        bugEntity.setDescription(bugRequest.getDescription());
+        bugEntity.setDescription(bug.getDescription());
 
         com.myorg.bugTrackerPoc.entity.Bug createdBugEntity = bugService.addBug(bugEntity);
         if(createdBugEntity != null){
             Bug bugResponse = new Bug();
             bugResponse.setId(createdBugEntity.getId());
             bugResponse.setDescription(createdBugEntity.getDescription());
-            return bugResponse;
+            return new ResponseEntity<Bug>(bugResponse, HttpStatus.CREATED);
         }
         throw new ResponseStatusException(HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Iterable<Bug> getAllBugs(){
+    public ResponseEntity<List<Bug>> findAllBugs() {
         Iterable<com.myorg.bugTrackerPoc.entity.Bug> bugsInDB = bugService.getAllBugs();
         List<Bug> allBugs = new ArrayList<Bug>();
         Bug placeholder = null;
@@ -58,22 +47,19 @@ public class BugController {
             placeholder.setDescription(bug.getDescription());
             allBugs.add(placeholder);
         }
-        return allBugs;
+        return new ResponseEntity<List<Bug>>(allBugs, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Bug findBugById(@PathVariable String id){
-        LOGGER.info("Searching for id : " + id);
-        Optional<com.myorg.bugTrackerPoc.entity.Bug> bug = bugService.findBugById(id);
+    public ResponseEntity<Bug> findBugById(String bugId){
+        LOGGER.info("Searching for id : " + bugId);
+        Optional<com.myorg.bugTrackerPoc.entity.Bug> bug = bugService.findBugById(bugId);
         if(bug.isPresent()){
             com.myorg.bugTrackerPoc.entity.Bug foundBug = bug.get();
             Bug bugResponse = new Bug();
             bugResponse.setId(foundBug.getId());
             bugResponse.setDescription(foundBug.getDescription());
-            return bugResponse;
+            return new ResponseEntity<Bug>(bugResponse, HttpStatus.OK);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-
 }

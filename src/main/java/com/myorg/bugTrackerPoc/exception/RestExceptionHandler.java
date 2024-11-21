@@ -1,6 +1,6 @@
 package com.myorg.bugTrackerPoc.exception;
 
-import org.openapitools.client.model.Error;
+import com.myorg.bugTrackerPoc.openapi.server.model.Error;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * Custom ExceptionHandler for modifying JSON response body
- * @see org.openapitools.client.model.Error
+ * @see com.myorg.bugTrackerPoc.openapi.server.model.Error
  */
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
