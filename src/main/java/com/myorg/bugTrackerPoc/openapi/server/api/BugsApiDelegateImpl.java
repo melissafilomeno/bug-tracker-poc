@@ -40,12 +40,7 @@ public class BugsApiDelegateImpl implements BugsApiDelegate {
 
     public ResponseEntity<List<Bug>> findAllBugs() {
         Iterable<com.myorg.bugTrackerPoc.entity.Bug> bugsInDB = bugService.getAllBugs();
-        List<Bug> allBugs = new ArrayList<Bug>();
-        Bug placeholder = null;
-        for(com.myorg.bugTrackerPoc.entity.Bug bug : bugsInDB){
-            placeholder = bugMapper.bugEntityToBug(bug);
-            allBugs.add(placeholder);
-        }
+        List<Bug> allBugs = bugMapper.bugEntityListToBugList(bugsInDB);
         return new ResponseEntity<List<Bug>>(allBugs, HttpStatus.OK);
     }
 
