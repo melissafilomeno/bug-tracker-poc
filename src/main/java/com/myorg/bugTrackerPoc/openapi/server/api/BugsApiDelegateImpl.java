@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.myorg.bugTrackerPoc.mappers.BugMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +24,15 @@ public class BugsApiDelegateImpl implements BugsApiDelegate {
     @Autowired
     private BugService bugService;
 
+    @Autowired
+    private BugMapper bugMapper;
+
     public ResponseEntity<Bug> bugsPost(Bug bug) {
-        com.myorg.bugTrackerPoc.entity.Bug bugEntity = new com.myorg.bugTrackerPoc.entity.Bug();
-        bugEntity.setDescription(bug.getDescription());
+        com.myorg.bugTrackerPoc.entity.Bug bugEntity = bugMapper.bugToBugEntity(bug);
 
         com.myorg.bugTrackerPoc.entity.Bug createdBugEntity = bugService.addBug(bugEntity);
         if(createdBugEntity != null){
-            Bug bugResponse = new Bug();
-            bugResponse.setId(createdBugEntity.getId());
-            bugResponse.setDescription(createdBugEntity.getDescription());
+            Bug bugResponse = bugMapper.bugEntityToBug(createdBugEntity);
             return new ResponseEntity<Bug>(bugResponse, HttpStatus.CREATED);
         }
         throw new ResponseStatusException(HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
@@ -42,9 +43,7 @@ public class BugsApiDelegateImpl implements BugsApiDelegate {
         List<Bug> allBugs = new ArrayList<Bug>();
         Bug placeholder = null;
         for(com.myorg.bugTrackerPoc.entity.Bug bug : bugsInDB){
-            placeholder = new Bug();
-            placeholder.setId(bug.getId());
-            placeholder.setDescription(bug.getDescription());
+            placeholder = bugMapper.bugEntityToBug(bug);
             allBugs.add(placeholder);
         }
         return new ResponseEntity<List<Bug>>(allBugs, HttpStatus.OK);
@@ -55,9 +54,7 @@ public class BugsApiDelegateImpl implements BugsApiDelegate {
         Optional<com.myorg.bugTrackerPoc.entity.Bug> bug = bugService.findBugById(bugId);
         if(bug.isPresent()){
             com.myorg.bugTrackerPoc.entity.Bug foundBug = bug.get();
-            Bug bugResponse = new Bug();
-            bugResponse.setId(foundBug.getId());
-            bugResponse.setDescription(foundBug.getDescription());
+            Bug bugResponse = bugMapper.bugEntityToBug(foundBug);
             return new ResponseEntity<Bug>(bugResponse, HttpStatus.OK);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
