@@ -98,7 +98,6 @@ public class BugsApiDelegateImplTest {
         when(bugMapper.bugEntityListToBugList(any())).thenReturn(List.of(mockBug1, mockBug2));
 
         given()
-        .when()
             .get("/bugs")
         .then()
             .statusCode(HttpStatus.OK.value())
