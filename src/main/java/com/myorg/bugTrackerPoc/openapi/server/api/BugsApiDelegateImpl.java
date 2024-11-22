@@ -1,21 +1,21 @@
 package com.myorg.bugTrackerPoc.openapi.server.api;
 
-import com.myorg.bugTrackerPoc.openapi.server.api.BugsApiDelegate;
+import com.myorg.bugTrackerPoc.mappers.BugMapper;
 import com.myorg.bugTrackerPoc.openapi.server.model.Bug;
 import com.myorg.bugTrackerPoc.service.BugService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.myorg.bugTrackerPoc.mappers.BugMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+@Setter
 @Service
 public class BugsApiDelegateImpl implements BugsApiDelegate {
 

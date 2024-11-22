@@ -1,17 +1,7 @@
 package com.myorg.bugTrackerPoc.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-
-import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.UUIDGenerator;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 
 
 @Data
