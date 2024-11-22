@@ -1,0 +1,1 @@
+GRANT SELECT, INSERT, UPDATE, DELETE ON mydb.bug TO 'bug_user';

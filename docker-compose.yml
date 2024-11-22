@@ -10,8 +10,9 @@ services:
     ports:
       - '3307:3306'
     volumes: 
-      - ./db/db_schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./db/db_data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      - ./src/main/resources/db/db_schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./src/main/resources/db/db_permissions.sql:/docker-entrypoint-initdb.d/2-permissions.sql
+      - ./src/main/resources/db/db_data.sql:/docker-entrypoint-initdb.d/3-data.sql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     environment:
