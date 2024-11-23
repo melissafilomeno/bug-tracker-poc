@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+/**
+ * i18n message configuration - reading from src/main/resources/messages.properties
+ */
 @Configuration
 public class MessageConfiguration {
 
