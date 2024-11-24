@@ -27,5 +27,5 @@ Run :
 
 
 Verification :
-* Go to phpmyadmin at http://localhost:8080 and login as 'root' and 'bug_user' with passwords specified in the .env file and ensure tables and data specified in db/db_schema.sql and db/db_data.sql are created
+* Go to phpmyadmin at http://localhost:8080 and login as 'root' and 'bug_user' with passwords specified in the .env file and ensure /src/main/resources/db/*.sql are executed
 * Import environment and postman_collection under postman/, select 'local' environment, set 'current value' from 'initial value', run the collection and verify
