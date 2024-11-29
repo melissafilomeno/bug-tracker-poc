@@ -56,6 +56,8 @@
 		<openapi-generator-version>7.10.0</openapi-generator-version>
 		<maven-compiler-version>3.13.0</maven-compiler-version>
 		<maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
+		<spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
+		<findsecbugs-plugin.version>1.13.0</findsecbugs-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -416,6 +418,23 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs-maven-plugin.version}</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>medium</threshold>
+					<failOnError>true</failOnError>
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>${findsecbugs-plugin.version}</version>
+						</plugin>
+					</plugins>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
