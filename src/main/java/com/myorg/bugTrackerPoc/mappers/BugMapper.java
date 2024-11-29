@@ -9,7 +9,6 @@ import java.lang.Iterable;
 public interface BugMapper {
 
     com.myorg.bugTrackerPoc.entity.Bug bugToBugEntity(Bug bug);
-    List<com.myorg.bugTrackerPoc.entity.Bug> bugListToBugEntityList(List<Bug> bug);
 
     Bug bugEntityToBug(com.myorg.bugTrackerPoc.entity.Bug bugList);
     List<Bug> bugEntityListToBugList(Iterable<com.myorg.bugTrackerPoc.entity.Bug> bugList);

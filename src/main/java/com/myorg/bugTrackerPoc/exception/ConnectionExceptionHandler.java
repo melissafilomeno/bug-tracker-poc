@@ -16,14 +16,18 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class ConnectionExceptionHandler {
 
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
+
+    public ConnectionExceptionHandler(@Autowired MessageSource messageSource){
+        this.messageSource = messageSource;
+    }
 
     @ExceptionHandler(value = {org.springframework.transaction.TransactionException.class})
-    public ResponseEntity<Object> handleConnectionError(Exception exception, WebRequest webRequest){
+    public ResponseEntity<Object> handleConnectionError(WebRequest webRequest){
         Error error = new Error();
         error.setCode(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        error.setMessage(messageSource.getMessage(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), null, webRequest.getLocale()));
+        error.setMessage(messageSource.getMessage(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                null, webRequest.getLocale()));
         return new ResponseEntity<>(error, HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 

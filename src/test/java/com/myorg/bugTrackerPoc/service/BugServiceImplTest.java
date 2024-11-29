@@ -2,7 +2,6 @@ package com.myorg.bugTrackerPoc.service;
 
 import com.myorg.bugTrackerPoc.entity.Bug;
 import com.myorg.bugTrackerPoc.repository.BugRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BugServiceImplTest {
@@ -60,7 +60,7 @@ public class BugServiceImplTest {
         when(bugRepository.findById(any())).thenReturn(Optional.of(mockBug));
 
         Optional<Bug> optionalResult = bugService.findBugById("1");
-        Assert.assertTrue(optionalResult.isPresent());
+        assertTrue(optionalResult.isPresent());
         Bug result = optionalResult.get();
         assertThat(result, hasProperty("id", is("1")));
         assertThat(result, hasProperty("description", is("description")));

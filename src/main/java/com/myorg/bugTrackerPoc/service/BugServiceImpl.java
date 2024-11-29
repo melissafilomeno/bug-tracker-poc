@@ -10,9 +10,12 @@ import com.myorg.bugTrackerPoc.repository.BugRepository;
 
 @Service
 public class BugServiceImpl implements BugService {
-    
-    @Autowired
-    private BugRepository bugRepository;
+
+    private final BugRepository bugRepository;
+
+    public BugServiceImpl(@Autowired BugRepository bugRepository){
+        this.bugRepository = bugRepository;
+    }
 
     @Override
     public Iterable<Bug> getAllBugs() {

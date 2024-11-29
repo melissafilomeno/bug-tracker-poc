@@ -57,14 +57,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/Bug"
         "404":
           description: Bug was not found
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/Error"
 components:
   schemas:

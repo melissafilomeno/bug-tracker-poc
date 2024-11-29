@@ -6,9 +6,9 @@ import com.myorg.bugTrackerPoc.entity.Bug;
 
 public interface BugService {
     
-    public Iterable<Bug> getAllBugs();
+    Iterable<Bug> getAllBugs();
 
-    public Optional<Bug> findBugById(String id);
+    Optional<Bug> findBugById(String id);
 
-    public Bug addBug(Bug bug);
+    Bug addBug(Bug bug);
 }
