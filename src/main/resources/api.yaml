@@ -50,7 +50,7 @@ paths:
           description: Bug ID
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/UUID'
       responses:
         "200":
           description: Returns the details of the bug
@@ -68,13 +68,18 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    UUID:
+      type: string
+      pattern: '^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$'
     Bug:
       type: object
       properties:
         id: 
-          type: string
+          $ref: "#/components/schemas/UUID"
         description:
           type: string
+          minLength: 1
+          maxLength: 40
     Error:
       type: object
       properties:

@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import com.myorg.bugTrackerPoc.exception.ValidationExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,11 +40,11 @@ public class BugsApiDelegateImplTest {
 
     @BeforeEach
     public void setUp(){
-        standaloneSetup(new BugsApiController(apiDelegate), new RestExceptionHandler(), new ConnectionExceptionHandler());
+        standaloneSetup(new BugsApiController(apiDelegate), new RestExceptionHandler(), new ConnectionExceptionHandler(), new ValidationExceptionHandler());
     }
 
     @Test
-    public void testCreateBug_Success(){
+    public void saveBug_Success(){
         when(bugService.addBug(any())).thenReturn(mock(Bug.class));
 
         String id = "1";
@@ -61,9 +62,9 @@ public class BugsApiDelegateImplTest {
     }
 
     @Test
-    public void testGetBugById_Success(){
+    public void getBugById_Success(){
         when(bugService.findBugById(any())).thenReturn(Optional.of(mock(Bug.class)));
-        String id = "1";
+        String id = "f100bc19-f816-4b57-bea1-011119091dae";
         String description = "This is my first bug";
         com.myorg.bugTrackerPoc.openapi.server.model.@NotNull Bug mockBug = buildBugObject(id, description);
         when(bugMapper.bugEntityToBug(any())).thenReturn(mockBug);
@@ -77,11 +78,11 @@ public class BugsApiDelegateImplTest {
     }
 
     @Test
-    public void testGetBugById_Fail_NotFound(){
+    public void getBugById_Fail_NotFound(){
         when(bugService.findBugById(any())).thenReturn(Optional.empty());
 
         given()
-            .get("/bugs/1")
+            .get("/bugs/f100bc19-f816-4b57-bea1-011119091dae")
         .then()
             .statusCode(HttpStatus.NOT_FOUND.value())
             .body("code", is(String.valueOf(HttpStatus.NOT_FOUND.value())))
@@ -89,7 +90,7 @@ public class BugsApiDelegateImplTest {
     }
 
     @Test
-    public void testGetAllBugs_Success(){
+    public void getAllBugs_Success(){
         Bug mockBugEntity1 = buildBugEntityObject("1", "desc1");
         Bug mockBugEntity2 = buildBugEntityObject("2", "desc2");
         when(bugService.getAllBugs()).thenReturn(List.of(mockBugEntity1, mockBugEntity2));

@@ -39,21 +39,21 @@ class BugTrackerPocApplicationTest {
 
 	@Container
 	@ServiceConnection
-	static MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:latest"))
+	private static MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:latest"))
 			.withInitScript("db/db_schema.sql");
 
 	@BeforeAll
-	static void beforeAll(){
+	public static void beforeAll(){
 		mySQLContainer.start();
 	}
 
 	@AfterAll
-	static void afterAll(){
+	public static void afterAll(){
 		mySQLContainer.stop();
 	}
 
 	@DynamicPropertySource
-	static void configureProperties(DynamicPropertyRegistry dynamicPropertyRegistry){
+	public static void configureProperties(DynamicPropertyRegistry dynamicPropertyRegistry){
 		dynamicPropertyRegistry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
 		dynamicPropertyRegistry.add("spring.datasource.username", mySQLContainer::getUsername);
 		dynamicPropertyRegistry.add("spring.datasource.password", mySQLContainer::getPassword);
@@ -63,13 +63,13 @@ class BugTrackerPocApplicationTest {
 	private BugRepository bugRepository;
 
 	@BeforeEach
-	void setUp(){
+	public void setUp(){
 		RestAssured.baseURI = "http://localhost:" + port;
 		bugRepository.deleteAll();
 	}
 
 	@Test
-	void saveBug_success() {
+	public void saveBug_Success() {
 		String description = "My first bug";
 		given()
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -86,21 +86,20 @@ class BugTrackerPocApplicationTest {
 	}
 
 	@Test
-	void getAllBugs_success(){
-		List<Bug> bugList = new ArrayList<>();
-		bugList.add(new Bug("desc1"));
-		bugList.add(new Bug("desc2"));
-		bugRepository.saveAll(bugList);
-
+	public void saveBug_Fail_DescriptionExceedsMaxLength(){
+		String description = "01234567890123456789012345678901234567890";
 		given()
-			.get("/bugs")
+			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.body("{\"description\": \"" + description + "\"}")
+			.post("/bugs")
 		.then()
-			.statusCode(HttpStatus.OK.value())
-			.body(".", hasSize(2));
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("code", is(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+			.body("message", is("Bad Request"));
 	}
 
 	@Test
-	void getBugById_success(){
+	public void getBugById_Success(){
 		String description = "My first bug";
 		Bug bug = new Bug(description);
 		Bug insertedBug = bugRepository.save(bug);
@@ -114,12 +113,38 @@ class BugTrackerPocApplicationTest {
 	}
 
 	@Test
-	void getBugById_NotFound(){
+	public void getBugById_Fail_NotFound(){
+		String id = "f100bc19-f816-4b57-bea1-011119091dae";
 		given()
-			.get("/bugs/1")
+			.get("/bugs/" + id)
 		.then()
 			.statusCode(HttpStatus.NOT_FOUND.value())
 			.body("code", is(String.valueOf(HttpStatus.NOT_FOUND.value())))
 			.body("message", is("Not Found"));
-}
+	}
+
+	@Test
+	public void getBugById_Fail_InvalidFormat(){
+		given()
+			.get("/bugs/1")
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("code", is(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+			.body("message", is("Bad Request"));
+	}
+
+	@Test
+	public void getAllBugs_Success(){
+		List<Bug> bugList = new ArrayList<>();
+		bugList.add(new Bug("desc1"));
+		bugList.add(new Bug("desc2"));
+		bugRepository.saveAll(bugList);
+
+		given()
+			.get("/bugs")
+		.then()
+			.statusCode(HttpStatus.OK.value())
+			.body(".", hasSize(2));
+	}
+
 }
