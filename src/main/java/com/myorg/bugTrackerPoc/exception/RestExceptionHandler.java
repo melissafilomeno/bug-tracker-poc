@@ -1,6 +1,7 @@
 package com.myorg.bugTrackerPoc.exception;
 
 import com.myorg.bugTrackerPoc.openapi.server.model.Error;
+import org.springframework.context.MessageSource;
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,8 +25,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             error.setMessage(problemDetail.getTitle());
         }else{
             error.setCode(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
-            if(getMessageSource() != null) {
-                error.setMessage(getMessageSource().getMessage(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+            MessageSource messageSource = getMessageSource();
+            if(messageSource != null) {
+                error.setMessage(messageSource.getMessage(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
                         null, request.getLocale()));
             }
         }

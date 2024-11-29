@@ -3,7 +3,6 @@ package com.myorg.bugTrackerPoc.openapi.server.api;
 import com.myorg.bugTrackerPoc.mappers.BugMapper;
 import com.myorg.bugTrackerPoc.openapi.server.model.Bug;
 import com.myorg.bugTrackerPoc.service.BugService;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +17,14 @@ import java.util.logging.Logger;
  * Implementation of BugsApiDelegate interface generated from Open API specifications
  *
  */
-@Setter
 @Service
 public class BugsApiDelegateImpl implements BugsApiDelegate {
 
     private static final Logger LOGGER = Logger.getLogger(BugsApiDelegateImpl.class.getName());
 
-    private BugService bugService;
+    private final BugService bugService;
 
-    private BugMapper bugMapper;
+    private final BugMapper bugMapper;
 
     public BugsApiDelegateImpl(@Autowired BugService bugService, @Autowired BugMapper bugMapper){
         this.bugService = bugService;
