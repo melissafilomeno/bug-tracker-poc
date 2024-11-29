@@ -27,11 +27,13 @@
 		<url/>
 	</scm>
 	<properties>
+		<netty-common.version>4.1.115.Final</netty-common.version>
 		<java.version>17</java.version>
-		<mysql-version>8.0.33</mysql-version>
+		<mysql-version>9.1.0</mysql-version>
 		<lombok-version>1.18.36</lombok-version>
+		<xmlunit-core.version>2.10.0</xmlunit-core.version>
+		<commons-compress.version>1.27.1</commons-compress.version>
 		<jakarta-persistence-api-version>3.1.0</jakarta-persistence-api-version>
-
 		<swagger-annotations-version>2.0.0-rc2</swagger-annotations-version>
 		<jersey-version>4.0.0-M1</jersey-version>
 		<findbugs-version>3.0.2</findbugs-version>
@@ -67,6 +69,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>maven.io.netty</groupId>
+					<artifactId>netty-common</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-common</artifactId>
+			<version>${netty-common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -95,6 +108,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.xmlunit</groupId>
+					<artifactId>xmlunit-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-core</artifactId>
+			<version>${xmlunit-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.projectreactor</groupId>
@@ -105,6 +129,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-compress</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>${commons-compress.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
