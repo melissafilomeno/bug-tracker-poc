@@ -100,10 +100,9 @@ class BugTrackerPocApplicationTest {
 
 	@Test
 	public void saveBug_Fail_DescriptionIsNull(){
-		String description = null;
 		given()
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			.body("{\"description\": " + description + "}")
+			.body("{\"description\": null }")
 			.post("/bugs")
 		.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
