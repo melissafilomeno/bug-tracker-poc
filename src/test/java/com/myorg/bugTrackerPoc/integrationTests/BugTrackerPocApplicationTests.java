@@ -99,6 +99,45 @@ class BugTrackerPocApplicationTest {
 	}
 
 	@Test
+	public void saveBug_Fail_DescriptionIsNull(){
+		String description = null;
+		given()
+			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.body("{\"description\": " + description + "}")
+			.post("/bugs")
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("code", is(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+			.body("message", is("Bad Request"));
+	}
+
+	@Test
+	public void saveBug_Fail_DescriptionIsEmptyString(){
+		String description = "";
+		given()
+			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.body("{\"description\": \"" + description + "\"}")
+			.post("/bugs")
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("code", is(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+			.body("message", is("Bad Request"));
+	}
+
+	@Test
+	public void saveBug_Fail_DescriptionIsOnlySpaces(){
+		String description = " ";
+		given()
+		.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+		.body("{\"description\": \"" + description + "\"}")
+		.post("/bugs")
+	.then()
+		.statusCode(HttpStatus.BAD_REQUEST.value())
+		.body("code", is(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+		.body("message", is("Bad Request"));
+	}
+
+	@Test
 	public void getBugById_Success(){
 		String description = "My first bug";
 		Bug bug = new Bug(description);

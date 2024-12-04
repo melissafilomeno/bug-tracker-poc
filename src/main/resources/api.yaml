@@ -78,6 +78,7 @@ components:
           type: string
           minLength: 1
           maxLength: 40
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank"
     Error:
       type: object
       properties:
