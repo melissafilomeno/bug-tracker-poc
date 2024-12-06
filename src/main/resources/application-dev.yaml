@@ -16,3 +16,7 @@ spring:
       ${MYSQL_PASSWORD}
     driver-class-name:
       com.mysql.cj.jdbc.Driver
+management:
+  endpoint:
+    env:
+      show-values: always
