@@ -22,6 +22,7 @@ Configuration Setup :
 
 
 Run :
+* Start config server (bug-tracker-poc-configserver)
 * Start Docker Desktop
 * Run `mvn clean install`
 * Run `mvn spring-boot:run`
