@@ -1,18 +1,8 @@
 spring:
-  profiles:
-    active: dev
   application:
-    name: bug-tracker-poc
-server:
-  port: 9090
-logging:
-  config: src/main/resources/logback-spring.xml
-  file:
-    name: bug-tracker-poc
-    # Note: logging.file.path is used via springProperty in logback-spring.xml
-    path: C://Users/melis/logs
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+    name: bugtracker1
+  config:
+    import: configserver:http://localhost:9091
+  cloud:
+    config:
+      label: main
