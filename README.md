@@ -14,9 +14,15 @@ Pre-requisites :
 
 
 Configuration Setup :
+* Setup config server (bug-tracker-poc-configserver)
 * Create a .env file and define the following fields :
+    * MYSQL_DB
+    * MYSQL_USER
     * MYSQL_PASSWORD
     * MYSQL_ROOT_PASSWORD
+    * ENCRYPT_KEY
+    * CLOUD_CONFIG_USER
+    * CLOUD_CONFIG_PASS
 * Open src/main/resources/application.yaml and update the field below with your log directory :
    * logging.file.path
 
@@ -24,6 +30,7 @@ Configuration Setup :
 Run :
 * Start config server (bug-tracker-poc-configserver)
 * Start Docker Desktop
+* Run `docker compose up`
 * Run `mvn clean install`
 * Run `mvn spring-boot:run`
 
