@@ -37,7 +37,7 @@ Run :
 
 Verification :
 * Go to phpmyadmin at http://localhost:8080 and login as 'root' and 'bug_user' with passwords specified in the .env file and ensure /src/main/resources/db/*.sql are executed
-* Import environment and postman_collection under postman/, select 'local' environment, set 'current value' from 'initial value', run the collection and verify
+* Import environment and postman_collection (not management) under postman/, select 'local' environment, set 'current value' from 'initial value', run the collection and verify
 
 
 Others :
