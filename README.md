@@ -20,9 +20,9 @@ Configuration Setup :
     * MYSQL_USER
     * MYSQL_PASSWORD
     * MYSQL_ROOT_PASSWORD
-    * ENCRYPT_KEY
-    * CLOUD_CONFIG_USER
-    * CLOUD_CONFIG_PASS
+    * ENCRYPT_KEY (align with configserver)
+    * CLOUD_CONFIG_USER (align with configserver)
+    * CLOUD_CONFIG_PASS (align with configserver)
 * Open src/main/resources/application.yaml and update the field below with your log directory :
    * logging.file.path
 
@@ -30,6 +30,7 @@ Configuration Setup :
 Run :
 * Start config server (bug-tracker-poc-configserver)
 * Start Docker Desktop
+* Delete old project containers
 * Run `docker compose up`
 * Run `mvn clean install`
 * Run `mvn spring-boot:run`
@@ -45,3 +46,15 @@ Others :
    - mvn compile
    - mvn spotbugs:spotbugs
    - mvn spotbugs:gui
+* Check database property is refreshed via GIT config change :
+   - Start database (via docker), configserver and main application
+   - Stop database (via docker)
+   - Delete old project container
+   - Update property in .env file
+   - Start database (via docker)
+   - Open configserver management postman_collection and run "Encrypt credentials", passing in raw property in body
+   - Update property in GIT (config) - {cipher}[[enc value]] and commit
+   - Open management postman_collection and run "actuator refresh"
+   - Verify the property is returned in the response body
+   - Verify the property is updated using management postman_collection "Actuator - Env"
+   - Run postman_collection to verify all tests are working
