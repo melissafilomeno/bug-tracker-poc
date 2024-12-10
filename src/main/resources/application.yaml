@@ -1,8 +1,19 @@
+encrypt:
+  key: ${ENCRYPT_KEY}
 spring:
   application:
     name: bugtracker1
   config:
-    import: configserver:http://localhost:9091
+    import:
+      - optional:file:.env[.properties]
+      - configserver:http://localhost:8888
   cloud:
     config:
       label: main
+      username: ${CLOUD_CONFIG_USER}
+      password: ${CLOUD_CONFIG_PASS}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
