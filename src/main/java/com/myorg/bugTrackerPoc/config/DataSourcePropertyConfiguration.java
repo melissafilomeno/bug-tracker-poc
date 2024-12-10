@@ -4,6 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+/**
+ * This is required to enable refresh of DataSource configuration from Config server
+ */
 @Profile("dev")
 @Component
 @ConfigurationProperties(prefix = "spring.datasource")

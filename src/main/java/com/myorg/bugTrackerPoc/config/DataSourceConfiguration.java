@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
+/*
+ * Database configuration to enable refresh from Config server
+ */
 @Profile("dev")
 @Configuration
 @RefreshScope
