@@ -30,8 +30,6 @@ Configuration Setup :
 Run :
 * Start config server (bug-tracker-poc-configserver)
 * Start Docker Desktop
-* Delete old project containers
-* Run `docker compose up`
 * Run `mvn clean install`
 * Run `mvn spring-boot:run`
 
@@ -47,11 +45,10 @@ Others :
    - mvn spotbugs:spotbugs
    - mvn spotbugs:gui
 * Check database property is refreshed via GIT config change :
-   - Start database (via docker), configserver and main application
-   - Stop database (via docker)
-   - Delete old project container
-   - Update property in .env file
-   - Start database (via docker)
+   - Start configserver and main application
+   - Remove container and verify in Docker Desktop
+   - Update database property in .env file
+   - Run `docker compose up`
    - Open configserver management postman_collection and run "Encrypt credentials", passing in raw property in body
    - Update property in GIT (config) - {cipher}[[enc value]] and commit
    - Open management postman_collection and run "actuator refresh"
