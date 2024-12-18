@@ -4,7 +4,9 @@ spring:
   application:
     name: bugtracker1
   config:
-    import: optional:file:.env[.properties]
+    import:
+      - optional:file:.env[.properties]
+      - optional:configserver:http://localhost:8888
   cloud:
     config:
       label: main

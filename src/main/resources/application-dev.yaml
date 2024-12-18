@@ -3,7 +3,8 @@ spring:
     compose:
       enabled: true
       file: docker-compose.yaml
-  config:
-    import:
-      - optional:file:.env[.properties]
-      - optional:configserver:http://localhost:8888
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8081/realms/pluralsight/protocol/openid-connect/certs

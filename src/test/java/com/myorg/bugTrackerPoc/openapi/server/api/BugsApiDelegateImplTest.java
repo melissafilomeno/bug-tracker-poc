@@ -71,7 +71,7 @@ public class BugsApiDelegateImplTest {
         when(bugService.findBugById(any())).thenReturn(Optional.of(mock(Bug.class)));
         String id = "f100bc19-f816-4b57-bea1-011119091dae";
         String description = "This is my first bug";
-        com.myorg.bugTrackerPoc.openapi.server.model.@NotNull Bug mockBug = buildBugObject(id, description);
+        com.myorg.bugTrackerPoc.openapi.server.model.Bug mockBug = buildBugObject(id, description);
         when(bugMapper.bugEntityToBug(any())).thenReturn(mockBug);
 
         given()
