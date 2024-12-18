@@ -23,6 +23,8 @@ Configuration Setup :
     * ENCRYPT_KEY (align with configserver)
     * CLOUD_CONFIG_USER (align with configserver)
     * CLOUD_CONFIG_PASS (align with configserver)
+    * KEYCLOAK_ADMIN_USER
+    * KEYCLOAK_ADMIN_PASSWORD
 * Open src/main/resources/application.yaml and update the field below with your log directory :
    * logging.file.path
 
@@ -32,11 +34,22 @@ Run :
 * Start Docker Desktop
 * Run `mvn clean install`
 * Run `mvn spring-boot:run`
+* Setup Keycloak Client Secret
+     - Go to keycloak console at http://localhost:8081
+     - Login with KEYCLOAK_ADMIN_USER and KEYCLOAK_ADMIN_PASSWORD
+     - Select 'pluralsight' realm
+     - Go to Clients
+     - Select 'bug-tracker-service'
+     - Go to Credentials tab
+     - Click 'Regenerate'
+     - Use Client Secret to configure :
+        - KEYCLOAK_CLIENT_SECRET in .env in bug-tracker-poc-oauthclientservice
+        - client_secret in body of postman_collection (not management)
 
 
 Verification :
 * Go to phpmyadmin at http://localhost:8080 and login as 'root' and 'bug_user' with passwords specified in the .env file and ensure /src/main/resources/db/*.sql are executed
-* Import environment and postman_collection (not management) under postman/, select 'local' environment, set 'current value' from 'initial value', run the collection and verify
+* Import environment and postman_collection (not management) under postman/, select 'local' environment, set 'current value' from 'initial value', run the collection (check Persist responses for a session) and verify
 
 
 Others :
